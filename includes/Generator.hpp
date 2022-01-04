@@ -15,7 +15,7 @@ class Generator {
   virtual ~Generator() = 0;
 
  protected:
-  OrderTicket container;
+  OrderTicket currentTicket;
 };
 
 inline Generator::~Generator(){};

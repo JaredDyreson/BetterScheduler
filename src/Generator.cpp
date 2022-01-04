@@ -9,7 +9,7 @@ OrderTicket Generator::dispense() {
    * we no longer want the information persist
    */
 
-  OrderTicket returnTicket = this->container;
+  OrderTicket returnTicket = this->currentTicket;
   // FIXME: we need some way to clear this object after dispensing
   return returnTicket;
 }
