@@ -4,6 +4,8 @@
 #include <cassert>
 #include <iostream>
 
+// AUTHOR: https://stackoverflow.com/a/38553502
+
 using topic_type = std::string;
 using timestamp_clock = std::chrono::system_clock;
 using timestamp_type = timestamp_clock::time_point;
