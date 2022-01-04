@@ -8,10 +8,10 @@ OrderTicket Generator::dispense() {
    * Once we give the contents of our OrderTicket
    * we no longer want the information persist
    */
-
-  OrderTicket returnTicket = this->currentTicket;
-  // FIXME: we need some way to clear this object after dispensing
-  return returnTicket;
+  return this->currentTicket;
+  //OrderTicket returnTicket = this->currentTicket;
+  //// FIXME: we need some way to clear this object after dispensing
+  //return returnTicket;
 }
 
 bool Generator::is_empty() const{

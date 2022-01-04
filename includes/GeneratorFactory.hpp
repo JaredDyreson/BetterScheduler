@@ -16,11 +16,11 @@ class UberEats : public Generator {
       Drink drink = Drink("Iced Coffee", 1);
       ticket.emplace(drink);
      }
-     this->currentTicket = ticket;
+     //this->currentTicket = ticket;
    }
    void printContainer() override{
-       for(auto drink : this->currentTicket.container) {
-         std::cout << drink.name << std::endl;
+       for(auto drink : *this->currentTicket.container) {
+         std::cout << "hello world" << std::endl;
        }
    }
   ~UberEats() override {}

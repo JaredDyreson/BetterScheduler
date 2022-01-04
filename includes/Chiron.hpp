@@ -3,6 +3,7 @@
 
 #include "Generator.hpp"
 #include "dataclasses/OrderTicket.hpp"
+#include "dataclasses/Drink.hpp"
 
 /*
  * Listens for requests from server and
@@ -13,7 +14,8 @@
 class Chiron {
  public:
   void obtainRequest(OrderTicket);
-  OrderTicket dispense();
+  Drink dispense();
+  bool is_empty() const;
 
  private:
   std::priority_queue<OrderTicket> candidates;

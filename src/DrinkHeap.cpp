@@ -1,12 +1,11 @@
 #include "../includes/DrinkHeap.hpp"
 #include "../includes/dataclasses/Drink.hpp"
 
-void DrinkHeap::insert(std::vector<Drink> _drinks) {
-  while(!_drinks.empty()) {
-    this->minHeap.push(_drinks.back());
-    _drinks.pop_back();
-  }
+void DrinkHeap::insert(Drink _drink) {
+    this->minHeap.push(_drink);
 }
+
+DrinkHeap::DrinkHeap(){}
 
 Drink DrinkHeap::pop() {
   Drink returnCandidate = this->minHeap.top();

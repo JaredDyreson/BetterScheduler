@@ -12,7 +12,7 @@ class DrinkHeap {
 
   public:
     DrinkHeap();
-    void insert(std::vector<Drink>);
+    void insert(Drink);
     Drink pop();
   private:
     std::priority_queue<Drink, std::vector<Drink>> minHeap;
