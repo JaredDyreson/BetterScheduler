@@ -6,6 +6,8 @@
 #include <queue>
 #include <string>
 #include <thread>
+#include <mutex>
+
 
 // AUTHOR: https://stackoverflow.com/a/38553502
 
@@ -14,6 +16,9 @@ class Accessor;
 using topic_type = std::string;
 using timestamp_clock = std::chrono::system_clock;
 using timestamp_type = timestamp_clock::time_point;
+
+std::mutex reorderMutex;
+std::mutex modifyMutex;
 
 struct node {
   topic_type topic;
@@ -68,6 +73,7 @@ class pending_node_queue : private pending_queue_traits<node>::type {
   bool conditional_add(topic_type topic,
                        timestamp_type timestamp = timestamp_clock::now()) {
     auto same_topic = [&topic](auto& x) { return topic_equals(topic, x); };
+    std::lock_guard<std::mutex> guard(modifyMutex);
     auto i = std::find_if(std::begin(c), std::end(c), same_topic);
     if (i == std::end(c)) {
       this->push(node{std::move(topic), std::move(timestamp)});
@@ -93,6 +99,7 @@ class Accessor {
      this->myQueue = _queue;
    }
   inline static pending_node_queue myQueue;
+  // Source : https://stackoverflow.com/a/6291589://stackoverflow.com/a/62915890 
 
   static void reorderQueue() { 
     std::cout << "I am reordering because I was told to" << std::endl;
@@ -117,8 +124,11 @@ void timer_start(std::function<void(void)> func, unsigned int interval) {
     while (true) {
       auto x = std::chrono::steady_clock::now() +
                std::chrono::milliseconds(interval);
+      std::cout << "Locking at " <<  interval <<  " milliseconds" << std::endl;
+      std::lock_guard<std::mutex> guard(reorderMutex);
       func();
       std::this_thread::sleep_until(x);
+      std::cout << "Unlocking" << std::endl;
     }
   }).detach();
 }
@@ -149,14 +159,6 @@ int main() {
   pn.pop();
   assert(pn.size() == 0);
 
-  // std::cout << "manually invoking reording" << std::endl;
-
-  // accessor.reorderQueue(pn);
-  // std::cout << "complete!" << std::endl;
-
-  // try to slice the container. these expressions won't compile.
-  //    try_to_slice(pn);
-  //    try_to_slice(std::move(pn));
   return 0;
 }
 
